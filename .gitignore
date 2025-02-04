@@ -2,6 +2,7 @@
 out/
 
 # dev
+.genkit
 .next/
 .yarn/
 !.yarn/releases
