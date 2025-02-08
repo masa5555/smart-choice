@@ -20,8 +20,8 @@ export default function Page() {
       <p className="py-2">以下の形式で比較対象を指定できます</p>
       <ul className="list-disc pl-4">
         <li>自由入力. 例: 「Pixel 9a」</li>
-        <li>WebページのURL</li>
-        <li>画像</li>
+        <li>WebページのURL (TBD...)</li>
+        <li>画像 (TBD...)</li>
       </ul>
       {compareTargetNameList.length > 0 && (
         <div className="mt-2">
@@ -84,6 +84,22 @@ export default function Page() {
           }}
         >
           <CirclePlus /> 追加
+        </Button>
+      </div>
+
+      <div className="text-center mt-4">
+        <Button
+          onClick={() => {
+            if (compareTargetNameList.length < 2) {
+              toast({
+                variant: "destructive",
+                title: "比較対象は2つ以上指定してください",
+              });
+              return;
+            }
+          }}
+        >
+          比較開始
         </Button>
       </div>
     </div>
