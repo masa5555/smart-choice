@@ -34,7 +34,7 @@ export default function Page() {
               href={menu.href}
               className="block hover:opacity-70 bg-primary text-white font-bold shadow-md rounded-md p-4"
             >
-              <div className="flex gap-4 ">
+              <div className="flex gap-4">
                 <span>{menu.icon}</span>
                 <span> {menu.label}</span>
               </div>
