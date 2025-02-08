@@ -1,9 +1,13 @@
+"use client";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function Page() {
   const categoryNestedList = [
@@ -37,6 +41,8 @@ export default function Page() {
     },
   ];
 
+  const [input, setInput] = useState("");
+
   return (
     <div className="p-4 flex flex-col gap-8 bg-secondary">
       <Card>
@@ -48,14 +54,19 @@ export default function Page() {
           <div className="flex gap-3">
             <Input
               type="text"
-              name="theme"
               className="w-50"
               placeholder="カテゴリ名を自由入力"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
             />
-            <Button type="submit" className="shadow-md bg-primary text-white">
-              <ArrowRight />
-              送信
-            </Button>
+            <Link
+              href={`/step/2-target/from-category/filter-category/${input}`}
+            >
+              <Button className="shadow-md bg-primary text-white">
+                <ArrowRight />
+                送信
+              </Button>
+            </Link>
           </div>
         </CardContent>
       </Card>

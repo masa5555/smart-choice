@@ -3,13 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type Props = {
-  params: {
+  params: Promise<{
     categoryName: string;
-  };
+  }>;
 };
 
 export default async function Page(props: Props) {
-  const { categoryName } = props.params;
+  const { categoryName } = await props.params;
   const decodedCategoryName = decodeURIComponent(categoryName);
 
   const perspectives = await generatePerspectiveFlow(decodedCategoryName);
@@ -30,7 +30,7 @@ export default async function Page(props: Props) {
                   <li key={desc}>{desc}</li>
                 ))}
               </ul>
-              <Tabs className="max-w-screen">
+              {/* <Tabs className="max-w-screen">
                 <TabsList>
                   {item.choices.map((choice) => (
                     <TabsTrigger
@@ -43,7 +43,7 @@ export default async function Page(props: Props) {
                     </TabsTrigger>
                   ))}
                 </TabsList>
-              </Tabs>
+              </Tabs> */}
               <div className="mx-2 gap-2 mt-4">
                 {item.choices.map((choice) => (
                   <Button
