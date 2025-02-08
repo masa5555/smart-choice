@@ -4,6 +4,7 @@
 ```
 pnpx genkit-cli start -- pnpm dev
 ```
+ReActエージェント
 
 # streaming
 https://firebase.google.com/docs/genkit/models?hl=ja#streaming

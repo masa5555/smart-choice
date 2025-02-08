@@ -1,6 +1,12 @@
 "use server";
 
-import { gemini15Flash, googleAI } from "@genkit-ai/googleai";
+import {
+  // DynamicRetrievalMode,
+  gemini15Flash,
+  // gemini15Pro,
+  // gemini20FlashExp,
+  googleAI,
+} from "@genkit-ai/googleai";
 import { genkit, z } from "genkit";
 import { GeneratePerspectiveSchema } from "./schema";
 
@@ -13,11 +19,14 @@ export const generatePerspectiveFlow = ai.defineFlow(
   {
     name: "generatePerspectiveFlow",
     inputSchema: z.string(),
-    outputSchema: GeneratePerspectiveSchema,
+    outputSchema: z.object({
+      theme: z.string(),
+      perspectives: GeneratePerspectiveSchema,
+    }),
   },
   async (category) => {
+    // 選択肢、チェックボックス分けれるようにしたい
     const { output } = await ai.generate({
-      model: gemini15Flash,
       prompt: `
       # タスク
       ${category}を比較する上での観点を生成して
@@ -32,6 +41,9 @@ export const generatePerspectiveFlow = ai.defineFlow(
     if (!output) {
       throw new Error("Failed to generate perspective");
     }
-    return output;
+    return {
+      theme: category,
+      perspectives: output,
+    };
   },
 );

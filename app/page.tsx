@@ -2,125 +2,163 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { LoaderCircle } from "lucide-react";
-import { useState } from "react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  ArrowRight,
+  ArrowRightFromLine,
+  DoorOpen,
+  LoaderCircle,
+} from "lucide-react";
+import Link from "next/link";
+import { useActionState } from "react";
 import type { z } from "zod";
 import { generatePerspectiveFlow } from "./genkit";
 import type { GeneratePerspectiveSchema } from "./schema";
 
-export default function Home() {
-  type A = {
-    theme: string;
-    perspectives: z.infer<typeof GeneratePerspectiveSchema>;
-  };
-  const [perspective, setPerspective] = useState<A | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+type A = {
+  theme: string;
+  perspectives: z.infer<typeof GeneratePerspectiveSchema>;
+};
 
-  async function selectItemCategory(formData: FormData) {
-    if (!formData.has("theme")) {
-      return;
-    }
-    const theme = formData.get("theme")?.toString() ?? "";
-
-    setIsLoading(true);
-    const suggestion = await generatePerspectiveFlow(theme);
-    setPerspective({
-      theme,
-      perspectives: suggestion,
-    });
-    setIsLoading(false);
+async function selectItemCategory(
+  _: A | null,
+  formData: FormData,
+): Promise<A | null> {
+  if (!formData.has("theme")) {
+    return null;
   }
+  const theme = formData.get("theme")?.toString() ?? "";
+  console.log({ formData, theme });
 
-  const ecCategoryList = ["冷蔵庫", "洗濯機", "食器洗い乾燥機", "電子レンジ"];
+  const current = await generatePerspectiveFlow(theme);
+  return current;
+}
 
-  const headerMenus = [
-    { name: "商品カテゴリから選ぶ", link: "#" },
-    { name: "比較したい商品から選ぶ", link: "#" },
-    { name: "使用中の製品から選ぶ", link: "#" },
-  ];
+type B = {
+  importance: {
+    [key: string]: string;
+  };
+};
 
-  console.log({ isLoading, perspective });
+async function selectPerspective(
+  prev: B | null,
+  formData: FormData,
+): Promise<B | null> {
+  console.log({ formData });
+
+  return prev;
+}
+
+export default function Home() {
+  const [perspectives, categoryFormAction, isPendingCategory] = useActionState(
+    selectItemCategory,
+    null,
+  );
+  const [personalImportance, perspectiveFormAction, isPendingPerspective] =
+    useActionState(selectPerspective, null);
 
   return (
-    <main>
-      <div className="flex gap-8 bg-gray-700 p-4">
-        {headerMenus.map((menu) => {
-          return (
-            <a
-              key={menu.name}
-              href={menu.link}
-              className="hover:opacity-70 text-white font-bold"
-            >
-              {menu.name}
-            </a>
-          );
-        })}
-      </div>
-      <hr />
-      <form action={selectItemCategory}>
-        <div className="flex m-4 gap-8">
-          <label htmlFor="theme">商品カテゴリを入力して: </label>
-          <Input type="text" name="theme" className="w-50" />
-          <Button type="submit" className="bg-blue-500">
-            Submit
+    <>
+      <div>・TODO: LP的な意味でキャッチコピーを書く</div>
+      <div className="text-center h-screen flex flex-col justify-center">
+        <Link href="/step/1-method">
+          <Button className="shadow-md bg-primary text-white w-60 h-14 font-bold">
+            <DoorOpen className="text-white" />
+            始める
           </Button>
-        </div>
+        </Link>
+      </div>
 
-        <div className="m-4">
-          <h2 className="text-xl font-bold mb-4">人気の商品カテゴリ:</h2>
-          <div className="flex gap-4 bg-gray-200 m-4 rounded-xl">
-            {ecCategoryList.map((category) => {
-              return (
-                <Button
-                  type="submit"
-                  key={category}
-                  className={`px-4 py-2 rounded-full transition-colors ${
-                    perspective?.theme === category
-                      ? "bg-gray-700 text-primary-foreground"
-                      : "bg-muted hover:bg-muted/80"
-                  }`}
-                >
-                  {category}
-                </Button>
-              );
-            })}
+      {/* <form action={categoryFormAction}>
+        <div className="m-4 gap-8">
+          <div className="flex gap-4">
+            <Input
+              type="text"
+              name="theme"
+              className="w-50"
+              placeholder="製品カテゴリを入力"
+            />
+            <Button type="submit" className="shadow-md bg-blue-500 text-white">
+              送信
+            </Button>
           </div>
         </div>
-      </form>
+      </form> */}
 
       <hr />
 
-      {isLoading && <LoaderCircle className="animate-spin" />}
-      {perspective && (
-        <form>
-          <h2 className="p-4 font-bold text-xl">
-            {perspective.theme}を選ぶ観点
+      {isPendingCategory && (
+        <div className="flex justify-center py-2">
+          <LoaderCircle className="animate-spin text-xl" size={32} />
+          <p className="px-4 py-1">選ぶPointを考え中</p>
+        </div>
+      )}
+
+      {perspectives && (
+        <form action={perspectiveFormAction}>
+          <h2 className="p-4 text-base">
+            Step2: {perspectives.theme}
+            を選ぶ上で重視するPointを選んでください
           </h2>
-          <ul className="bg-gray-200 m-8 rounded-xl">
-            {perspective.perspectives.map((item) => {
+          <ul className="rounded-xl">
+            {perspectives.perspectives.map((item) => {
               return (
-                <li key={item.name} className="p-4">
-                  <h3 className="font-semibold">{item.name}</h3>
-                  <p>{item.description}</p>
-                  <div className="flex gap-4 m-4">
+                <li key={item.name} className="py-4 px-2 shadow-md rounded-xl">
+                  <h3 className="font-semibold mb-1">{item.name}</h3>
+                  <ul className="list-disc ml-4">
+                    {item.description.map((desc) => (
+                      <li key={desc}>{desc}</li>
+                    ))}
+                  </ul>
+                  <Tabs
+                    onChange={(e) => {
+                      console.log(e);
+                    }}
+                    className="max-w-screen"
+                  >
+                    <TabsList>
+                      {item.choices.map((choice) => (
+                        <TabsTrigger
+                          key={choice}
+                          name={item.name}
+                          value={choice}
+                          onSelect={(e) => {
+                            console.log(e);
+                          }}
+                          className="mx-1 shadow-md bg-gray-200 text-black"
+                        >
+                          {choice}
+                        </TabsTrigger>
+                      ))}
+                    </TabsList>
+                  </Tabs>
+                  <ScrollArea className="mx-2 gap-2 mt-4">
                     {item.choices.map((choice) => (
                       <Button
                         key={choice}
-                        type="submit"
-                        className="bg-gray-700 text-white"
+                        name={item.name}
+                        value={choice}
+                        className="m-1 shadow-md bg-gray-200 text-black"
                       >
                         {choice}
                       </Button>
                     ))}
-                  </div>
+                  </ScrollArea>
                 </li>
               );
             })}
           </ul>
+          <div className="flex justify-center">
+            <button
+              type="submit"
+              className="shadow-md m-2 py-2 px-4 bg-blue-500 text-white rounded-xl"
+            >
+              次に進む
+            </button>
+          </div>
         </form>
       )}
-
-      <hr />
-    </main>
+    </>
   );
 }

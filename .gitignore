@@ -3,6 +3,7 @@ out/
 
 # dev
 .genkit
+.history
 .next/
 .yarn/
 !.yarn/releases
