@@ -19,7 +19,7 @@ export default function Page() {
       </h2>
       <p className="py-2">以下の形式で比較対象を指定できます</p>
       <ul className="list-disc pl-4">
-        <li>自由入力. 例: 「Pixel 9a」</li>
+        <li>名前で入力. 例: 「Pixel 9a」</li>
         <li>WebページのURL (TBD...)</li>
         <li>画像 (TBD...)</li>
       </ul>
