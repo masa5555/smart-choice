@@ -1,4 +1,4 @@
-import { generatePerspectiveFlow } from "@/app/genkit";
+import { generatePerspectiveFlow } from "@/app/_flow/generatePerspectiveFlow";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -30,32 +30,14 @@ export default async function Page(props: Props) {
                   <li key={desc}>{desc}</li>
                 ))}
               </ul>
-              <div>
-                {/* <Tabs className="max-w-screen">
-                  <TabsList>
-                    {item.choices.map((choice) => (
-                      <TabsTrigger
-                        key={choice}
-                        name={item.name}
-                        value={choice}
-                        className="mx-1 shadow-md bg-gray-200 text-black"
-                      >
-                        {choice}
-                      </TabsTrigger>
-                    ))}
-                  </TabsList>
-                </Tabs> */}
-              </div>
 
               <div className="mx-2 gap-2 mt-4">
                 {item.choices.map((choice) => (
                   <Button
                     key={choice}
-                    name={item.name}
-                    value={choice}
-                    className="m-1 shadow-md bg-gray-200 text-black"
+                    className="m-1 shadow-md bg-gray-200 text-black hover:text-red"
                   >
-                    {choice}
+                    <span className="">{choice}</span>
                   </Button>
                 ))}
               </div>
@@ -64,12 +46,12 @@ export default async function Page(props: Props) {
         })}
       </ul>
       <div className="flex justify-center">
-        <button
+        <Button
           type="submit"
           className="shadow-md bg-primary text-white m-2 py-2 px-4 rounded-xl"
         >
           次に進む
-        </button>
+        </Button>
       </div>
     </div>
   );
