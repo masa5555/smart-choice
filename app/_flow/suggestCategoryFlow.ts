@@ -1,7 +1,9 @@
 "use server";
 
 import { z } from "genkit";
-import { vertexAiGemini15Flash } from "../_config/genkit";
+import { vertexAiGemini20Flash } from "../_config/genkit";
+
+const ai = vertexAiGemini20Flash;
 
 const outputSchema = z.object({
   // productList: z.array(
@@ -14,7 +16,7 @@ const outputSchema = z.object({
   categoryList: z.array(z.string()).max(5),
 });
 
-export const suggestCategoryFlow = vertexAiGemini15Flash.defineFlow(
+export const suggestCategoryFlow = ai.defineFlow(
   {
     name: "suggestCategoryFlow",
     inputSchema: z.string(),
@@ -48,7 +50,7 @@ export const suggestCategoryFlow = vertexAiGemini15Flash.defineFlow(
     console.log(productList);
 
     if (productList.length === 0) {
-      const { output } = await vertexAiGemini15Flash.generate({
+      const { output } = await ai.generate({
         prompt: `
         # タスク
         ${productName} に関係しそうな商品カテゴリを推薦してください。
@@ -66,7 +68,7 @@ export const suggestCategoryFlow = vertexAiGemini15Flash.defineFlow(
       return output;
     }
 
-    const { output } = await vertexAiGemini15Flash.generate({
+    const { output } = await ai.generate({
       prompt: `
       # タスク
       以下の入力をグループ化してください。

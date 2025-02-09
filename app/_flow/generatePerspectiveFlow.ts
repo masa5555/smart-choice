@@ -1,23 +1,10 @@
 "use server";
 
-import googleAI, {
-  // gemini15Pro,
-  GeminiConfig,
-  // gemini15Flash,
-  // gemini20FlashExp,
-} from "@genkit-ai/googleai";
-import { gemini15Flash, vertexAI } from "@genkit-ai/vertexai";
-import { genkit, z } from "genkit";
+import { z } from "genkit";
+import { vertexAiGemini20Flash } from "../_config/genkit";
 import { GeneratePerspectiveSchema } from "../_schema/GeneratePerspectiveSchema";
 
-const ai = genkit({
-  plugins: [vertexAI()],
-  // model: gemini15Flash,
-  // only vertexAI
-  model: gemini15Flash.withConfig({
-    googleSearchRetrieval: {},
-  }),
-});
+const ai = vertexAiGemini20Flash;
 
 export const generatePerspectiveFlow = ai.defineFlow(
   {
@@ -52,9 +39,8 @@ export const generatePerspectiveFlow = ai.defineFlow(
     });
     const { output, usage } = response;
     console.log({ output, usage });
-    const metadata = response.toJSON();
-
-    console.dir({ metadata }, { depth: null });
+    // const metadata = response.toJSON();
+    // console.dir({ metadata }, { depth: null });
     if (!output) {
       console.error("error");
       throw new Error("Failed to generate perspective");

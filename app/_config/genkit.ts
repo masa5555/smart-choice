@@ -1,7 +1,7 @@
-import vertexAI, { gemini15Flash } from "@genkit-ai/vertexai";
+import vertexAI, { gemini20Flash001 } from "@genkit-ai/vertexai";
 import { genkit } from "genkit";
 
-export const vertexAiGemini15Flash = genkit({
-  plugins: [vertexAI()],
-  model: gemini15Flash,
+export const vertexAiGemini20Flash = genkit({
+  plugins: [vertexAI({ location: "us-central1" })],
+  model: gemini20Flash001,
 });

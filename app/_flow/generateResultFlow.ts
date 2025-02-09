@@ -1,15 +1,9 @@
 "use server";
 
-import vertexAI, { gemini15Flash } from "@genkit-ai/vertexai";
-import { c } from "@genkit-ai/vertexai/lib/types-uNrWWt0Z";
-import { genkit, z } from "genkit";
+import { z } from "genkit";
+import { vertexAiGemini20Flash } from "../_config/genkit";
 
-const ai = genkit({
-  plugins: [vertexAI()],
-  // model: gemini15Flash,
-  // only vertexAI
-  model: gemini15Flash,
-});
+const ai = vertexAiGemini20Flash;
 
 export const menuSuggestionStreamingFlow = ai.defineFlow(
   {
@@ -20,7 +14,6 @@ export const menuSuggestionStreamingFlow = ai.defineFlow(
   },
   async (restaurantTheme, { sendChunk }) => {
     const response = await ai.generateStream({
-      model: gemini15Flash,
       prompt: `Invent a menu item for a ${restaurantTheme} themed restaurant.`,
     });
 

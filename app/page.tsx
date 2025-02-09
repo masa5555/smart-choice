@@ -59,9 +59,12 @@ export default function Home() {
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
               製品選びを、もっとスマートに
             </h1>
-            <p className="text-xl text-muted-foreground">
-              AIが最適な製品の選択をサポート。複数の製品を簡単に比較して、あなたにぴったりの一台を見つけましょう。
-            </p>
+            <div className="text-xl text-muted-foreground">
+              <p>AIが最適な製品の選択をサポート。</p>
+              <p>
+                複数の製品を簡単に比較して、あなたにぴったりの一台を見つけましょう。
+              </p>
+            </div>
             <div className="pt-4">
               <Link href="/step/1-method">
                 <Button size="lg" className="text-lg">
@@ -75,7 +78,7 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="py-16 md:py-24">
+      <section className="py-12 md:py-16">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">主な機能</h2>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
