@@ -11,7 +11,7 @@ const outputSchema = z.object({
   //     smallImageUrl: z.string(),
   //   }),
   // ),
-  categoryList: z.array(z.string()),
+  categoryList: z.array(z.string()).max(5),
 });
 
 export const suggestCategoryFlow = vertexAiGemini15Flash.defineFlow(
@@ -46,6 +46,25 @@ export const suggestCategoryFlow = vertexAiGemini15Flash.defineFlow(
       },
     );
     console.log(productList);
+
+    if (productList.length === 0) {
+      const { output } = await vertexAiGemini15Flash.generate({
+        prompt: `
+        # タスク
+        ${productName} に関係しそうな商品カテゴリを推薦してください。
+  
+        # 入力
+        ${JSON.stringify(productList)}
+        `,
+        output: {
+          schema: outputSchema,
+        },
+      });
+      if (!output) {
+        throw new Error("Failed to generate suggestion");
+      }
+      return output;
+    }
 
     const { output } = await vertexAiGemini15Flash.generate({
       prompt: `
