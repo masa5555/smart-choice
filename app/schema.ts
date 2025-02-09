@@ -5,16 +5,8 @@ export const GeneratePerspectiveSchema = z
     z.object({
       name: z.string().describe("観点の名前 ex) 予算"),
       description: z
-        .array(
-          z.string().describe(`
-              # タスク
-              観点を端的に説明してください
-
-              # 制約
-              - スマホの横幅で2文以内の短く簡潔な長さにしてほしい.
-              - 一文で一つのことだけを説明してほしい
-              `),
-        )
+        .array(z.string())
+        .min(1)
         .max(3)
         .describe(
           `# 出力タスク
@@ -22,6 +14,8 @@ export const GeneratePerspectiveSchema = z
 
           # 制約
           - 他の観点とのトレードオフについて、簡潔に説明してください
+          - 一文で一つのことだけを説明してほしい
+          - スマホの横幅で2行以内の短く簡潔な長さにしてほしい
           - 「-」を含めないでください
           `,
         ),

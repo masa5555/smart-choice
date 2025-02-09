@@ -1,18 +1,17 @@
 "use server";
 
-import {
-  // DynamicRetrievalMode,
-  gemini15Flash,
+import googleAI, {
   // gemini15Pro,
+  GeminiConfig,
+  gemini15Flash,
   // gemini20FlashExp,
-  googleAI,
 } from "@genkit-ai/googleai";
 import { genkit, z } from "genkit";
 import { GeneratePerspectiveSchema } from "./schema";
 
 const ai = genkit({
   plugins: [googleAI()],
-  model: gemini15Flash,
+  model: gemini15Flash.withConfig({}),
 });
 
 export const generatePerspectiveFlow = ai.defineFlow(
@@ -39,6 +38,7 @@ export const generatePerspectiveFlow = ai.defineFlow(
       },
     });
     if (!output) {
+      console.error("error");
       throw new Error("Failed to generate perspective");
     }
     return {

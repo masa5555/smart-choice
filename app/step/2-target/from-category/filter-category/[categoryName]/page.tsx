@@ -30,20 +30,23 @@ export default async function Page(props: Props) {
                   <li key={desc}>{desc}</li>
                 ))}
               </ul>
-              {/* <Tabs className="max-w-screen">
-                <TabsList>
-                  {item.choices.map((choice) => (
-                    <TabsTrigger
-                      key={choice}
-                      name={item.name}
-                      value={choice}
-                      className="mx-1 shadow-md bg-gray-200 text-black"
-                    >
-                      {choice}
-                    </TabsTrigger>
-                  ))}
-                </TabsList>
-              </Tabs> */}
+              <div>
+                {/* <Tabs className="max-w-screen">
+                  <TabsList>
+                    {item.choices.map((choice) => (
+                      <TabsTrigger
+                        key={choice}
+                        name={item.name}
+                        value={choice}
+                        className="mx-1 shadow-md bg-gray-200 text-black"
+                      >
+                        {choice}
+                      </TabsTrigger>
+                    ))}
+                  </TabsList>
+                </Tabs> */}
+              </div>
+
               <div className="mx-2 gap-2 mt-4">
                 {item.choices.map((choice) => (
                   <Button
