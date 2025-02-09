@@ -8,7 +8,7 @@ const app = new Hono()
     zValidator(
       "query",
       z.object({
-        q: z.string(),
+        q: z.string().optional(),
       }),
     ),
     (c) => {
