@@ -15,6 +15,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { CirclePlus, LoaderCircle, Scale, Trash2 } from "lucide-react";
 import { useState } from "react";
+import { handleSubmit } from "./_action";
 
 export default function Page() {
   const { toast } = useToast();
@@ -147,7 +148,7 @@ export default function Page() {
           <Button
             className="px-12 w-1/2"
             size="lg"
-            onClick={() => {
+            onClick={async () => {
               if (compareTargetNameList.length < 2) {
                 toast({
                   variant: "destructive",
@@ -162,6 +163,10 @@ export default function Page() {
                 });
                 return;
               }
+              await handleSubmit({
+                items: compareTargetNameList,
+                category,
+              });
             }}
           >
             比較開始
