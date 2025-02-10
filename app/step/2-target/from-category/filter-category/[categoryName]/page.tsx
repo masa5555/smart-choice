@@ -38,12 +38,6 @@ export default async function Page(props: Props) {
                     <span className="">{choice}</span>
                   </Button>
                 ))}
-                <Button
-                  key={"気にしない"}
-                  className="m-1 shadow-md bg-gray-200 text-primary hover:bg-secondary"
-                >
-                  <span className="">気にしない</span>
-                </Button>
               </div>
             </li>
           );
