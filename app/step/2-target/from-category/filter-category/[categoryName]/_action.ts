@@ -69,14 +69,14 @@ export const handleSubmit = async (formData: FormData) => {
     const reasoningPlan = childDocs.find((plan) => plan.name === "reasoning");
     console.log({ reasoningPlan });
     if (reasoningPlan) {
-      const result = await generateReasoningFlow({
-        category,
-        items: userSelection,
-      });
+      // const result = await generateReasoningFlow({
+      //   category,
+      //   items: userSelection,
+      // });
       await firestore.doc(`plans/${reasoningPlan.id}`).set({
         name: "reasoning",
         status: "finished",
-        result: result,
+        result: "XXXXX",
       });
     }
 
