@@ -14,7 +14,6 @@ export default async function Page(props: Props) {
   const { id } = await props.params;
 
   const result = await getPlans({ id });
-  console.log({ result });
 
   const products = [
     {
