@@ -2,10 +2,14 @@ import { Hono } from "hono";
 import { handle } from "hono/vercel";
 
 import helloRoute from "./hello";
+import testCustomSearchRoute from "./test_custom_search";
 
 export const runtime = "nodejs"; // or 'nodejs'
 
-const app = new Hono().basePath("/api").route("/hello", helloRoute);
+const app = new Hono()
+  .basePath("/api")
+  .route("/hello", helloRoute)
+  .route("/test_custom_search", testCustomSearchRoute);
 
 export const GET = handle(app);
 
