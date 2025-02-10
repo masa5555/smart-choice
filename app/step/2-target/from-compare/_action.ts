@@ -21,6 +21,13 @@ export const handleSubmit = async ({
   const doc = await firestore.collection("results").add({
     status: "created",
     createdAt: new Date().toISOString(),
+    plans: [
+      {
+        id: "1",
+        name: `${items.join(" vs ")}の比較`,
+        status: "created",
+      },
+    ],
   });
   if (!doc.id) {
     throw new Error("Failed to create a new result");
