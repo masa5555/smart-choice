@@ -8,6 +8,7 @@ import { redirect } from "next/navigation";
 
 export const handleSubmit = async (formData: FormData) => {
   console.log(formData);
+  const category = String(formData.get("category"));
 
   if (!formData) {
     throw new Error("Failed to get form data");
@@ -66,7 +67,10 @@ export const handleSubmit = async (formData: FormData) => {
           };
         });
       console.log({ userSelection });
-      const result = await generateReasoningFlow(userSelection);
+      const result = await generateReasoningFlow({
+        category,
+        items: userSelection,
+      });
       await firestore.doc(`plans/${reasoningPlan.id}`).set({
         name: "reasoning",
         status: "finished",

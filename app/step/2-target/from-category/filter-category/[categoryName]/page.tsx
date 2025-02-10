@@ -25,6 +25,10 @@ export default async function Page(props: Props) {
         {perspectives.perspectives.map((item) => {
           return (
             <li key={item.name} className="py-4 pl-4 pr-2 shadow-md rounded-xl">
+              <div className="hidden">
+                <input type="text" name={"category"} value={item.name} />
+              </div>
+
               <h3 className="font-semibold mb-1">{item.name}</h3>
               <ul className="list-disc ml-4">
                 {item.description.map((desc) => (
