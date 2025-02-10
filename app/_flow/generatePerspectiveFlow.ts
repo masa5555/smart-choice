@@ -27,9 +27,10 @@ export const generatePerspectiveFlow = ai.defineFlow(
         .get();
     }
     const existCache = doc;
-    if (existCache) {
-      return doc.data();
-    }
+    console.log({ existCache });
+    // if (existCache) {
+    //   return doc.data();
+    // }
 
     // 選択肢、チェックボックス分けれるようにしたい
     const response = await ai.generate({
