@@ -32,11 +32,16 @@ export const handleSubmit = async (formData: FormData) => {
   // add all child docs
   const childDocs = await Promise.all(
     plans.map(async (plan) => {
-      return await firestore.doc(`results/${doc.id}`).add({
+      const planId = await firestore.collection(`results/${doc.id}`).add({
         name: plan,
       });
+      return {
+        id: planId.id,
+        name: plan,
+      };
     }),
   );
+
   console.log({ childDocs });
 
   await firestore.doc(`results/${doc.id}`).set({
