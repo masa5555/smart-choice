@@ -99,11 +99,7 @@ export const PlanAccordionItem = ({ id, name }: Props) => {
         )}
       </AccordionTrigger>
       <AccordionContent>
-        {data?.ok ? (
-          <pre>{JSON.stringify(data.json(), null, 2)}</pre>
-        ) : (
-          <p>進んでいる内容を途中経過を表示したい</p>
-        )}
+        <p>進んでいる内容を途中経過を表示したい</p>
       </AccordionContent>
     </AccordionItem>
   );
