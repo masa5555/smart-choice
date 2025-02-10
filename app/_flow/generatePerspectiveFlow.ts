@@ -27,8 +27,9 @@ export const generatePerspectiveFlow = ai.defineFlow(
         .get();
     }
     const existCache = doc && !!doc.data().theme;
+    console.log({ existCache, theme: doc?.data().theme });
     if (existCache) {
-      console.log({ existCache, data: doc.data() });
+      return doc.data();
     }
 
     // if (existCache) {
