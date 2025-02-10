@@ -3,6 +3,7 @@
 import { after } from "next/server";
 
 import { firestore } from "@/app/_config/firestore";
+import { generateReasoningFlow } from "@/app/_flow/generateReasoningFlow";
 import { redirect } from "next/navigation";
 
 export const handleSubmit = async (formData: FormData) => {
@@ -38,6 +39,7 @@ export const handleSubmit = async (formData: FormData) => {
       return {
         id: planId.id,
         name: plan,
+        status: "created",
       };
     }),
   );
@@ -49,14 +51,36 @@ export const handleSubmit = async (formData: FormData) => {
   });
 
   // https://nextjs.org/docs/app/api-reference/functions/after
-  after(() => {
-    /**
-     * if (plan.name === 'research') {
-     *   cse.list(query)
-     * } else (plan.name === 'observe') {
-     *  {
-     * }
-     */
+  after(async () => {
+    const researchPlan = childDocs.find((plan) => plan.name === "research");
+    if (!researchPlan) {
+      throw new Error("Failed to find research plan");
+    }
+    const userSelection = Object.entries(formData)
+      .filter(([key, _]) => !key.includes("ACTION"))
+      .map(([key, value]) => {
+        return {
+          perspective: key,
+          userSelection: String(value),
+        };
+      });
+    const result = await generateReasoningFlow(userSelection);
+    await firestore.doc(`plans/${researchPlan.id}`).set({
+      status: "finished",
+      result: result,
+    });
+
+    // for (const plan of childDocs) {
+    //   if (plan.name === "research") {
+    //     // cse.list(query)
+    //   } else if (plan.name === "observe") {
+    //     // {}
+    //   } else if {
+    //     // {}
+    //   } else {
+    //     // {}
+    //   }
+    // }
   });
   return redirect(`/result/${doc.id}`);
 };

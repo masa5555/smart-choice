@@ -20,6 +20,13 @@ export default async function Page(props: Props) {
   const result = await getPlans({ id });
   console.log({ result });
 
+  const labelMap: Record<string, string> = {
+    reasoning: "思考中...",
+    research: "調査中...",
+    observe: "要約中...",
+    format: "データを作成中...",
+  };
+
   return (
     <div>
       <Suspense fallback={<div>Loading...</div>}>
@@ -31,16 +38,11 @@ export default async function Page(props: Props) {
               className="border rounded-lg mb-4 px-4 py-1 hover:shadow-md transition-shadow"
             >
               <AccordionTrigger>
-                <div className="flex gap-8">
-                  <span>
-                    {plan.id} {plan.name}
-                  </span>
-
-                  <LoaderCircle className="animate-spin" size={28} />
-                </div>
+                <LoaderCircle className="animate-spin" size={28} />
+                <div className="flex gap-8">{labelMap[plan.name] ?? ""}</div>
               </AccordionTrigger>
               <AccordionContent>
-                <p>{plan.name}</p>
+                <p>進んでいる内容を途中経過を表示したい</p>
               </AccordionContent>
             </AccordionItem>
           ))}
