@@ -17,7 +17,7 @@ const app = new Hono().get("/", async (c) => {
   return c.json({
     message: "Hello from Hono!",
     status: 200,
-    body: {},
+    body: res.data.items,
   });
 });
 
