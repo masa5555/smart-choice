@@ -32,12 +32,9 @@ export const handleSubmit = async (formData: FormData) => {
   // add all child docs
   const childDocs = await Promise.all(
     plans.map(async (plan) => {
-      const planId = await firestore
-        .collection("results")
-        .collection(`${doc.id}`)
-        .add({
-          name: plan,
-        });
+      const planId = await firestore.collection("plans").add({
+        name: plan,
+      });
       return {
         id: planId.id,
         name: plan,
