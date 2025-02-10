@@ -13,7 +13,10 @@ const outputSchema = z.object({
   //     smallImageUrl: z.string(),
   //   }),
   // ),
-  categoryList: z.array(z.string()).max(5),
+  categoryList: z
+    .array(z.string())
+    .max(5)
+    .describe("具体的な商品名ではなく、カテゴリを出力して欲しい"),
 });
 
 export const suggestCategoryFlow = ai.defineFlow(
@@ -75,7 +78,7 @@ export const suggestCategoryFlow = ai.defineFlow(
 
       # 制約
       - 似たような商品名の商品をグループ化してください。
-      - 具体的な商品名をカテゴリにしないでください。
+      - 具体的な商品名は出力しないでください。
       - ”genreName”をそのままカテゴリとして使用してください。
 
       # 入力

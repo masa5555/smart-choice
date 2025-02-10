@@ -211,7 +211,7 @@ export default function Home() {
         <div className="container mx-auto px-4 py-8">
           <div className="flex justify-center items-center gap-2">
             <Scale className="w-5 h-5" />
-            <span className="font-semibold">製品比較エージェント</span>
+            <span className="font-semibold">Smart Choice</span>
           </div>
         </div>
       </footer>

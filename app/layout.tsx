@@ -14,11 +14,14 @@ export default function RootLayout({
   return (
     <>
       <html lang="ja">
+        <head>
+          <meta title="Smart Choice" />
+        </head>
         <body>
           <header className="bg-primary p-4 text-white shadow-md">
             <Link href="/" className="flex gap-2">
               <Bot className="text-white" />
-              <span className="tracking-wide">製品比較エージェント</span>
+              <span className="tracking-wide">Smart Choice</span>
             </Link>
           </header>
           <Provider>{children}</Provider>

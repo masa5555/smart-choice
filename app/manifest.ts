@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "製品比較エージェント",
-    short_name: "製品比較エージェント",
+    name: "Smart Choice",
+    short_name: "Smart Choice",
     icons: [
       {
         src: "/favicon.ico",
