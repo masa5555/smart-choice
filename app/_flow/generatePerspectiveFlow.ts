@@ -26,8 +26,8 @@ export const generatePerspectiveFlow = ai.defineFlow(
         .doc(`${cacheGeneratePerspectiveCollectionName}/${category}`)
         .get();
     }
-    const existCache = doc;
-    console.log({ existCache });
+    const existCache = doc && !!doc.data().theme;
+    console.log({ existCache, data: doc.data() });
     // if (existCache) {
     //   return doc.data();
     // }

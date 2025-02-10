@@ -34,24 +34,23 @@ export default async function Page(props: Props) {
                 ))}
               </ul>
 
-              <RadioGroup className="flex mx-2 gap-2 mt-4" name={item.name}>
+              <RadioGroup
+                className="flex flex-col mx-0 gap-2 mt-3 md:flex-row md:mx-2 md:mt-4"
+                name={item.name}
+              >
                 {item.choices.map((choice, index) => (
-                  <span
+                  <Label
+                    htmlFor={`${item.name}-${index}`}
                     key={`${item.name}-${index}`}
-                    className="cursor-pointer relative flex items-center rounded-lg px-4 py-2 shadow-md bg-gray-100 hover:bg-gray-200 transition-colors"
+                    className="cursor-pointer relative flex w-2/3 md:w-auto text-center items-center rounded-lg px-4 py-2 shadow-md bg-gray-100 hover:bg-gray-200 transition-colors"
                   >
                     <RadioGroupItem
                       value={choice}
                       id={`${item.name}-${index}`}
                       className="cursor-pointer"
                     />
-                    <Label
-                      htmlFor={`${item.name}-${index}`}
-                      className="pl-6 cursor-pointer"
-                    >
-                      {choice}
-                    </Label>
-                  </span>
+                    <span className="pl-4">{choice}</span>
+                  </Label>
                 ))}
               </RadioGroup>
             </li>
@@ -61,7 +60,7 @@ export default async function Page(props: Props) {
       <div className="flex justify-center">
         <Button
           type="submit"
-          className="shadow-md bg-primary text-white m-2 py-2 px-4 rounded-xl"
+          className="shadow-md bg-primary text-white m-4 py-2 px-8 rounded-xl"
         >
           次に進む
         </Button>
