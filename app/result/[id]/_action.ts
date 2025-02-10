@@ -1,16 +1,19 @@
 "use server";
 
 import { firestore } from "@/app/_config/firestore";
-// const crypto = require("node:crypto");
 
-export default async function createNewResult() {
-  const doc = await firestore.collection("results").add({
-    status: "created",
-    createdAt: new Date().toISOString(),
-  });
-  // console.log({ id: doc.id });
+export default async function getResult({
+  id,
+}: {
+  id: string;
+}) {
+  if (process.env.ENV === "local") {
+    return {
+      status: "created",
+      createdAt: new Date().toISOString(),
+    };
+  }
+  const doc = await firestore.doc(`results/${id}`).get();
 
-  return {
-    id: doc.id,
-  };
+  return doc.data();
 }

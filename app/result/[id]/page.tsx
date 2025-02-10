@@ -10,7 +10,7 @@ type Props = {
 export default async function Page(props: Props) {
   const { id } = await props.params;
 
-  const result = await createNewResult();
+  const result = await createNewResult({ id });
   // console.log({ result });
 
   return (

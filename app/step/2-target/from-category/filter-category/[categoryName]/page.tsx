@@ -1,5 +1,8 @@
 import { generatePerspectiveFlow } from "@/app/_flow/generatePerspectiveFlow";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { handleSubmit } from "./_action";
 
 type Props = {
   params: Promise<{
@@ -14,7 +17,7 @@ export default async function Page(props: Props) {
   const perspectives = await generatePerspectiveFlow(decodedCategoryName);
 
   return (
-    <div>
+    <form action={handleSubmit}>
       <h2 className="p-4 text-xl font-bold">
         {decodedCategoryName}で重視するポイントを選ぶ
       </h2>
@@ -31,16 +34,17 @@ export default async function Page(props: Props) {
                 ))}
               </ul>
 
-              <div className="mx-2 gap-2 mt-4">
+              <RadioGroup className="flex mx-2 gap-2 mt-4" name={item.name}>
                 {item.choices.map((choice) => (
-                  <Button
+                  <span
                     key={choice}
                     className="m-1 shadow-md bg-gray-200 text-primary hover:bg-secondary"
                   >
-                    <span className="">{choice}</span>
-                  </Button>
+                    <RadioGroupItem value={choice} id={choice} />
+                    <Label htmlFor={choice}>{choice}</Label>
+                  </span>
                 ))}
-              </div>
+              </RadioGroup>
             </li>
           );
         })}
@@ -53,6 +57,6 @@ export default async function Page(props: Props) {
           次に進む
         </Button>
       </div>
-    </div>
+    </form>
   );
 }

@@ -2,7 +2,10 @@ import { enableFirebaseTelemetry } from "@genkit-ai/firebase";
 import vertexAI, { gemini20Flash001 } from "@genkit-ai/vertexai";
 import { genkit } from "genkit";
 
-enableFirebaseTelemetry();
+const env = process.env.ENV || "production";
+if (env === "production") {
+  enableFirebaseTelemetry();
+}
 
 export const vertexAiGemini20Flash = genkit({
   plugins: [vertexAI({ location: "us-central1" })],
