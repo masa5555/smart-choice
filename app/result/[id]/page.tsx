@@ -1,5 +1,5 @@
-import { menuSuggestionStreamingFlow } from "@/app/_flow/generateResultFlow";
 import { Suspense } from "react";
+import createNewResult from "./_action";
 
 type Props = {
   params: Promise<{
@@ -10,7 +10,7 @@ type Props = {
 export default async function Page(props: Props) {
   const { id } = await props.params;
 
-  const result = await menuSuggestionStreamingFlow("ステーキ");
+  const result = await createNewResult();
   console.log({ result });
 
   return (

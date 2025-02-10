@@ -14,6 +14,9 @@ importers:
       '@genkit-ai/vertexai':
         specifier: ^1.0.4
         version: 1.0.4(genkit@1.0.4)(zod@3.24.1)
+      '@google-cloud/firestore':
+        specifier: ^7.11.0
+        version: 7.11.0
       '@radix-ui/react-scroll-area':
         specifier: ^1.2.3
         version: 1.2.3(@types/react-dom@19.0.3(@types/react@19.0.5))(@types/react@19.0.5)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
