@@ -52,8 +52,8 @@ export const handleSubmit = async (formData: FormData) => {
 
   // https://nextjs.org/docs/app/api-reference/functions/after
   after(async () => {
-    const researchPlan = childDocs.find((plan) => plan.name === "reasoning");
-    if (!researchPlan) {
+    const reasoningPlan = childDocs.find((plan) => plan.name === "reasoning");
+    if (!reasoningPlan) {
       throw new Error("Failed to find reasoning plan");
     }
     const userSelection = Array.from(formData)
@@ -66,23 +66,47 @@ export const handleSubmit = async (formData: FormData) => {
       });
     console.log({ userSelection });
     const result = await generateReasoningFlow(userSelection);
-    await firestore.doc(`plans/${researchPlan.id}`).set({
+    await firestore.doc(`plans/${reasoningPlan.id}`).set({
       name: "reasoning",
       status: "finished",
       result: result,
     });
 
-    // for (const plan of childDocs) {
-    //   if (plan.name === "research") {
-    //     // cse.list(query)
-    //   } else if (plan.name === "observe") {
-    //     // {}
-    //   } else if {
-    //     // {}
-    //   } else {
-    //     // {}
-    //   }
-    // }
+    const sleep = (ms: number) =>
+      new Promise((resolve) => setTimeout(resolve, ms));
+
+    await sleep(5000);
+
+    const researchPlan = childDocs.find((plan) => plan.name === "research");
+    if (researchPlan) {
+      await firestore.doc(`plans/${researchPlan?.id}`).set({
+        name: "research",
+        status: "finished",
+        result: "",
+      });
+    }
+
+    await sleep(5000);
+
+    const observePlan = childDocs.find((plan) => plan.name === "observe");
+    if (observePlan) {
+      await firestore.doc(`plans/${observePlan?.id}`).set({
+        name: "observe",
+        status: "finished",
+        result: "",
+      });
+    }
+
+    await sleep(5000);
+
+    const formatPlan = childDocs.find((plan) => plan.name === "format");
+    if (formatPlan) {
+      await firestore.doc(`plans/${formatPlan?.id}`).set({
+        name: "format",
+        status: "finished",
+        result: "",
+      });
+    }
   });
   return redirect(`/result/${doc.id}`);
 };
