@@ -32,6 +32,7 @@ export const generateReasoningFlow = ai.defineFlow(
         schema: z.string().describe("生成された文章"),
       },
     });
+    console.log({ response });
     const { output, usage } = response;
     if (!output) {
       throw new Error("Failed to generate reasoning");
