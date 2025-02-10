@@ -23,7 +23,7 @@ export const generateReasoningFlow = ai.defineFlow(
     const response = await ai.generate({
       prompt: `
       # タスク
-      ${input[0].userSelection}を比較する上での思考を生成して
+      ${input[0].userSelection}を比較する上での思考を文章で生成して下さい
 
       # 制約
       - 人によって選択肢が分かれやすいものを優先してほしい
@@ -31,7 +31,7 @@ export const generateReasoningFlow = ai.defineFlow(
       - ${input[0].perspective}に最適化された理由を生成してほしい
       `,
       output: {
-        schema: z.string(),
+        schema: z.string().describe("生成された文章"),
       },
     });
     const { output, usage } = response;
