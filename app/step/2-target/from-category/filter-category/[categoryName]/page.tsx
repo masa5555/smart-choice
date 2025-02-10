@@ -1,6 +1,5 @@
 import { generatePerspectiveFlow } from "@/app/_flow/generatePerspectiveFlow";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type Props = {
   params: Promise<{
@@ -13,7 +12,6 @@ export default async function Page(props: Props) {
   const decodedCategoryName = decodeURIComponent(categoryName);
 
   const perspectives = await generatePerspectiveFlow(decodedCategoryName);
-  console.log({ perspectives });
 
   return (
     <div>
@@ -23,7 +21,7 @@ export default async function Page(props: Props) {
       <ul className="rounded-xl">
         {perspectives.perspectives.map((item) => {
           return (
-            <li key={item.name} className="py-4 px-2 shadow-md rounded-xl">
+            <li key={item.name} className="py-4 pl-4 pr-2 shadow-md rounded-xl">
               <h3 className="font-semibold mb-1">{item.name}</h3>
               <ul className="list-disc ml-4">
                 {item.description.map((desc) => (
@@ -35,11 +33,17 @@ export default async function Page(props: Props) {
                 {item.choices.map((choice) => (
                   <Button
                     key={choice}
-                    className="m-1 shadow-md bg-gray-200 text-black hover:text-red"
+                    className="m-1 shadow-md bg-gray-200 text-primary hover:bg-secondary"
                   >
                     <span className="">{choice}</span>
                   </Button>
                 ))}
+                <Button
+                  key={"気にしない"}
+                  className="m-1 shadow-md bg-gray-200 text-primary hover:bg-secondary"
+                >
+                  <span className="">気にしない</span>
+                </Button>
               </div>
             </li>
           );
