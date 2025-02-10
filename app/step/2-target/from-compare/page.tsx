@@ -28,7 +28,6 @@ export default function Page() {
   const handleAddCompareTarget = async (input: string): Promise<void> => {
     setIsLoadingCategory(true);
     const result = await suggestCategoryFlow(input);
-    console.log({ result });
     setCategoryCandidates((prev) => [...prev, ...result.categoryList]);
     if (category === "") {
       setCategory(result.categoryList[0]);

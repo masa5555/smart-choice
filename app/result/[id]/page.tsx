@@ -11,7 +11,7 @@ export default async function Page(props: Props) {
   const { id } = await props.params;
 
   const result = await createNewResult();
-  console.log({ result });
+  // console.log({ result });
 
   return (
     <div>

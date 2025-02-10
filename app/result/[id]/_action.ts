@@ -8,7 +8,7 @@ export default async function createNewResult() {
     status: "created",
     createdAt: new Date().toISOString(),
   });
-  console.log({ id: doc.id });
+  // console.log({ id: doc.id });
 
   return {
     id: doc.id,

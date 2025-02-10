@@ -38,7 +38,7 @@ export const generatePerspectiveFlow = ai.defineFlow(
       },
     });
     const { output, usage } = response;
-    console.log({ output, usage });
+    // console.log({ output, usage });
     // const metadata = response.toJSON();
     // console.dir({ metadata }, { depth: null });
     if (!output) {

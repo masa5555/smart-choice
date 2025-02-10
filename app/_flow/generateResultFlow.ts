@@ -22,7 +22,7 @@ export const menuSuggestionStreamingFlow = ai.defineFlow(
       // the output stream via streamingCallback(). In this example, we output
       // the text of the chunk, unmodified.
       sendChunk(chunk.text);
-      console.log(chunk.text);
+      // console.log(chunk.text);
     }
 
     return {

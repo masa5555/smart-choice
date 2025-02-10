@@ -25,7 +25,9 @@ export default async function Page(props: Props) {
               <h3 className="font-semibold mb-1">{item.name}</h3>
               <ul className="list-disc ml-4">
                 {item.description.map((desc) => (
-                  <li key={desc}>{desc}</li>
+                  <li key={desc} className="text-gray-600">
+                    {desc}
+                  </li>
                 ))}
               </ul>
 
