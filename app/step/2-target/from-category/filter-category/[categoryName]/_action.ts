@@ -35,6 +35,8 @@ export const handleSubmit = async (formData: FormData) => {
     plans.map(async (plan) => {
       const planId = await firestore.collection("plans").add({
         name: plan,
+        status: "created",
+        result: "",
       });
       return {
         id: planId.id,
@@ -53,29 +55,29 @@ export const handleSubmit = async (formData: FormData) => {
   // https://nextjs.org/docs/app/api-reference/functions/after
   after(async () => {
     const reasoningPlan = childDocs.find((plan) => plan.name === "reasoning");
-    if (!reasoningPlan) {
-      throw new Error("Failed to find reasoning plan");
-    }
-    const userSelection = Array.from(formData)
-      .filter(([key, _]) => !key.includes("ACTION"))
-      .map(([key, value]) => {
-        return {
-          perspective: key,
-          userSelection: String(value),
-        };
+    console.log({ reasoningPlan });
+    if (reasoningPlan) {
+      const userSelection = Array.from(formData)
+        .filter(([key, _]) => !key.includes("ACTION"))
+        .map(([key, value]) => {
+          return {
+            perspective: key,
+            userSelection: String(value),
+          };
+        });
+      console.log({ userSelection });
+      const result = await generateReasoningFlow(userSelection);
+      await firestore.doc(`plans/${reasoningPlan.id}`).set({
+        name: "reasoning",
+        status: "finished",
+        result: result,
       });
-    console.log({ userSelection });
-    const result = await generateReasoningFlow(userSelection);
-    await firestore.doc(`plans/${reasoningPlan.id}`).set({
-      name: "reasoning",
-      status: "finished",
-      result: result,
-    });
+    }
 
     const sleep = (ms: number) =>
       new Promise((resolve) => setTimeout(resolve, ms));
 
-    await sleep(5000);
+    await sleep(1000);
 
     const researchPlan = childDocs.find((plan) => plan.name === "research");
     if (researchPlan) {
@@ -85,8 +87,9 @@ export const handleSubmit = async (formData: FormData) => {
         result: "",
       });
     }
+    console.log({ researchPlan });
 
-    await sleep(5000);
+    await sleep(1000);
 
     const observePlan = childDocs.find((plan) => plan.name === "observe");
     if (observePlan) {
@@ -96,10 +99,12 @@ export const handleSubmit = async (formData: FormData) => {
         result: "",
       });
     }
+    console.log({ observePlan });
 
-    await sleep(5000);
+    await sleep(1000);
 
     const formatPlan = childDocs.find((plan) => plan.name === "format");
+    console.log({ formatPlan });
     if (formatPlan) {
       await firestore.doc(`plans/${formatPlan?.id}`).set({
         name: "format",
