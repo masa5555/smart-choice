@@ -44,6 +44,7 @@ export const PlanAccordionItem = ({ id, name }: Props) => {
   // fetch poling 1s
   const { data, refetch } = useGetPlan(id);
   const [isLoading, setIsLoading] = useState(true);
+  const [result, setResult] = useState<string>("");
 
   const callback = async () => {
     if (!data?.ok) {
@@ -54,6 +55,7 @@ export const PlanAccordionItem = ({ id, name }: Props) => {
 
     if (json.body.status === "finished") {
       setIsLoading(false);
+      setResult(JSON.stringify(json.body.result));
       return;
     }
 
@@ -99,7 +101,11 @@ export const PlanAccordionItem = ({ id, name }: Props) => {
         )}
       </AccordionTrigger>
       <AccordionContent>
-        <p>進んでいる内容を途中経過を表示したい</p>
+        {result ? (
+          <pre>{result}</pre>
+        ) : (
+          <p>進んでいる内容を途中経過を表示したい</p>
+        )}
       </AccordionContent>
     </AccordionItem>
   );

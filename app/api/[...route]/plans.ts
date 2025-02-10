@@ -12,6 +12,7 @@ const app = new Hono().get("/:id", async (c) => {
         id: "1agaega33",
         name: "reasoning",
         status: "created",
+        result: "",
       },
     });
   }
@@ -24,6 +25,7 @@ const app = new Hono().get("/:id", async (c) => {
       id: string;
       name: string;
       status: string;
+      result: string;
     },
   });
 });
