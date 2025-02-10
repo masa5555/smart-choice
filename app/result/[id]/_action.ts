@@ -11,6 +11,24 @@ export default async function getResult({
     return {
       status: "created",
       createdAt: new Date().toISOString(),
+      plans: [
+        {
+          id: "1",
+          name: "reasoning",
+        },
+        {
+          id: "2",
+          name: "research",
+        },
+        {
+          id: "3",
+          name: "observe",
+        },
+        {
+          id: "4",
+          name: "format",
+        },
+      ],
     };
   }
   const doc = await firestore.doc(`results/${id}`).get();

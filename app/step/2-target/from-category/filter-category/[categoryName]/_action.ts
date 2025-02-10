@@ -32,9 +32,12 @@ export const handleSubmit = async (formData: FormData) => {
   // add all child docs
   const childDocs = await Promise.all(
     plans.map(async (plan) => {
-      const planId = await firestore.collection(`results/${doc.id}`).add({
-        name: plan,
-      });
+      const planId = await firestore
+        .collection("results")
+        .collection(`${doc.id}`)
+        .add({
+          name: plan,
+        });
       return {
         id: planId.id,
         name: plan,
@@ -49,6 +52,14 @@ export const handleSubmit = async (formData: FormData) => {
   });
 
   // https://nextjs.org/docs/app/api-reference/functions/after
-  after(() => {});
+  after(() => {
+    /**
+     * if (plan.name === 'research') {
+     *   cse.list(query)
+     * } else (plan.name === 'observe') {
+     *  {
+     * }
+     */
+  });
   return redirect(`/result/${doc.id}`);
 };
