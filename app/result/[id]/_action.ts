@@ -15,5 +15,20 @@ export default async function getResult({
   }
   const doc = await firestore.doc(`results/${id}`).get();
 
+  /**
+   * ページを閉じても実行され続ける
+   * 何度アクセスしても、キャッシュを返せるようにする
+   * データのGETリクエストはfirestoreの参照のみに専念し、プロパティが存在しない場合は、ローディングを表示する
+   * このactionは、実行計画の参照のみに専念する
+   * response format
+   * {
+   *    plans:
+   *      {
+   *        id: uuid,
+   *        name: string,
+   *       }[]
+   * }
+   */
+
   return doc.data();
 }

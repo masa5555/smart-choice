@@ -1,14 +1,9 @@
-# サーバーアクションだと、アクションに対するローディングはページ切り替えなどしないといけない?
-
 # Firebase genkit
 ```
 pnpx genkit-cli start -- pnpm dev
 ```
 ReActエージェント
 
-# streaming
-https://firebase.google.com/docs/genkit/models?hl=ja#streaming
-generateStream
 
 - [技術スタック](#技術スタック)
 - [VSCodeの設定](#VSCodeの設定)
