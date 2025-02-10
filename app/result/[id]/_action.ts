@@ -2,11 +2,18 @@
 
 import { firestore } from "@/app/_config/firestore";
 
-export default async function getResult({
+export async function getPlans({
   id,
 }: {
   id: string;
-}) {
+}): Promise<{
+  status: string;
+  createdAt: string;
+  plans: {
+    id: string;
+    name: string;
+  }[];
+}> {
   if (process.env.ENV === "local") {
     return {
       status: "created",
