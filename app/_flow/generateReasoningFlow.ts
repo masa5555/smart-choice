@@ -5,6 +5,8 @@ import { vertexAiGemini20Flash } from "../_config/genkit";
 
 const ai = vertexAiGemini20Flash;
 
+const outputSchema = z.string();
+
 export const generateReasoningFlow = ai.defineFlow(
   {
     name: "generateReasoningFlow",
@@ -17,7 +19,7 @@ export const generateReasoningFlow = ai.defineFlow(
         }),
       ),
     }),
-    outputSchema: z.string(),
+    outputSchema,
   },
   async ({ category, items }) => {
     if (items.length === 0) {
@@ -29,7 +31,7 @@ export const generateReasoningFlow = ai.defineFlow(
       ${category}を比較する上での思考を文章で生成して下さい
       `,
       output: {
-        schema: z.string().describe("生成された文章"),
+        schema: outputSchema,
       },
     });
     console.log({ response });

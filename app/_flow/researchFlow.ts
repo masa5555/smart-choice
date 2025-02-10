@@ -6,6 +6,13 @@ import { vertexAiGemini20Flash } from "../_config/genkit";
 
 const ai = vertexAiGemini20Flash;
 
+const outputSchema = z.array(
+  z.object({
+    itemName: z.string(),
+    description: z.string(),
+  }),
+);
+
 export const researchFlow = ai.defineFlow(
   {
     name: "researchFlow",
@@ -18,12 +25,7 @@ export const researchFlow = ai.defineFlow(
         }),
       ),
     }),
-    outputSchema: z.array(
-      z.object({
-        itemName: z.string(),
-        description: z.string(),
-      }),
-    ),
+    outputSchema,
   },
   async ({ category, items }) => {
     if (items.length === 0) {
@@ -78,12 +80,7 @@ export const researchFlow = ai.defineFlow(
       ${items.map((item) => `- ${item.perspective}: ${item.userSelection}`).join("\n")}
       `,
       output: {
-        schema: z.array(
-          z.object({
-            itemName: z.string().describe("商品名"),
-            description: z.string().describe("商品説明"),
-          }),
-        ),
+        schema: outputSchema,
       },
     });
     const { output, usage } = response;
