@@ -43,30 +43,32 @@ export const researchFlow = ai.defineFlow(
     });
 
     console.log(res.data);
-    const result = [];
-    for (const d of res.data.items ?? []) {
-      if (!d.link) continue;
-      const scrape = await fetch(d.link);
-      const text = await scrape.text();
-      const summary = await ai.generate({
-        prompt: `
-        # タスク
-          コンテキストから${category}の商品に関わる情報を最大1000字で要約して
-        
-        # コンテキスト
-          ${text}
-        `,
-        output: {
-          schema: z.string().describe("要約"),
-        },
-      });
-      console.log({ summary });
-      result.push({
-        title: d.title,
-        link: d.link,
-        summary,
-      });
+    if (!res.data.items) {
+      return [];
     }
+    const result = await Promise.all(
+      res.data.items.map(async (d) => {
+        if (!d.link) return;
+        const scrape = await fetch(d.link);
+        const text = await scrape.text();
+        const summary = await ai.generate({
+          prompt: `
+          # タスク
+            コンテキストから${category}の商品に関わる情報を最大1000字で要約して
+          
+          # コンテキスト
+            ${text}
+          `,
+        });
+        const summaryText = summary.text;
+        console.log({ summaryText });
+        return {
+          title: d.title,
+          link: d.link,
+          summary: summaryText,
+        };
+      }),
+    );
 
     const response = await ai.generate({
       prompt: `
