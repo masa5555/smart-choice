@@ -1,6 +1,10 @@
 "use server";
 
 import { z } from "genkit";
+import {
+  cacheGeneratePerspectiveCollectionName,
+  firestore,
+} from "../_config/firestore";
 import { vertexAiGemini20Flash } from "../_config/genkit";
 import { GeneratePerspectiveSchema } from "../_schema/GeneratePerspectiveSchema";
 
@@ -16,6 +20,17 @@ export const generatePerspectiveFlow = ai.defineFlow(
     }),
   },
   async (category) => {
+    let doc = null;
+    if (process.env.ENV !== "local") {
+      doc = await firestore
+        .doc(`${cacheGeneratePerspectiveCollectionName}/${category}`)
+        .get();
+    }
+    const existCache = doc;
+    if (existCache) {
+      return doc.data();
+    }
+
     // 選択肢、チェックボックス分けれるようにしたい
     const response = await ai.generate({
       prompt: `
@@ -44,6 +59,14 @@ export const generatePerspectiveFlow = ai.defineFlow(
     if (!output) {
       console.error("error");
       throw new Error("Failed to generate perspective");
+    }
+    if (process.env.ENV !== "local") {
+      await firestore
+        .doc(`${cacheGeneratePerspectiveCollectionName}/${category}`)
+        .set({
+          theme: category,
+          perspectives: output,
+        });
     }
     return {
       theme: category,

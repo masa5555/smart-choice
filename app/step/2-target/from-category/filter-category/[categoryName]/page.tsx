@@ -35,13 +35,22 @@ export default async function Page(props: Props) {
               </ul>
 
               <RadioGroup className="flex mx-2 gap-2 mt-4" name={item.name}>
-                {item.choices.map((choice) => (
+                {item.choices.map((choice, index) => (
                   <span
-                    key={choice}
-                    className="m-1 shadow-md bg-gray-200 text-primary hover:bg-secondary"
+                    key={`${item.name}-${index}`}
+                    className="cursor-pointer relative flex items-center rounded-lg px-4 py-2 shadow-md bg-gray-100 hover:bg-gray-200 transition-colors"
                   >
-                    <RadioGroupItem value={choice} id={choice} />
-                    <Label htmlFor={choice}>{choice}</Label>
+                    <RadioGroupItem
+                      value={choice}
+                      id={`${item.name}-${index}`}
+                      className="cursor-pointer"
+                    />
+                    <Label
+                      htmlFor={`${item.name}-${index}`}
+                      className="pl-6 cursor-pointer"
+                    >
+                      {choice}
+                    </Label>
                   </span>
                 ))}
               </RadioGroup>
