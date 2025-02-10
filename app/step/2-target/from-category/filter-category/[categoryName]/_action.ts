@@ -64,6 +64,7 @@ export const handleSubmit = async (formData: FormData) => {
           userSelection: String(value),
         };
       });
+    console.log({ userSelection });
     const result = await generateReasoningFlow(userSelection);
     await firestore.doc(`plans/${researchPlan.id}`).set({
       status: "finished",

@@ -17,6 +17,9 @@ export const generateReasoningFlow = ai.defineFlow(
     outputSchema: z.string(),
   },
   async (input) => {
+    if (input.length === 0) {
+      return "エラー: 入力がありません";
+    }
     const response = await ai.generate({
       prompt: `
       # タスク
