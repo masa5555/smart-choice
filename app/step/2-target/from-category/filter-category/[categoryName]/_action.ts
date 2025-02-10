@@ -4,6 +4,7 @@ import { after } from "next/server";
 
 import { firestore } from "@/app/_config/firestore";
 import { generateReasoningFlow } from "@/app/_flow/generateReasoningFlow";
+import { researchFlow } from "@/app/_flow/researchFlow";
 import { redirect } from "next/navigation";
 
 export const handleSubmit = async (formData: FormData) => {
@@ -53,20 +54,21 @@ export const handleSubmit = async (formData: FormData) => {
     plans: childDocs,
   });
 
+  const userSelection = Array.from(formData)
+    .filter(([key, _]) => !key.includes("ACTION"))
+    .map(([key, value]) => {
+      return {
+        perspective: key,
+        userSelection: String(value),
+      };
+    });
+  console.log({ userSelection });
+
   // https://nextjs.org/docs/app/api-reference/functions/after
   after(async () => {
     const reasoningPlan = childDocs.find((plan) => plan.name === "reasoning");
     console.log({ reasoningPlan });
     if (reasoningPlan) {
-      const userSelection = Array.from(formData)
-        .filter(([key, _]) => !key.includes("ACTION"))
-        .map(([key, value]) => {
-          return {
-            perspective: key,
-            userSelection: String(value),
-          };
-        });
-      console.log({ userSelection });
       const result = await generateReasoningFlow({
         category,
         items: userSelection,
@@ -78,21 +80,22 @@ export const handleSubmit = async (formData: FormData) => {
       });
     }
 
-    const sleep = (ms: number) =>
-      new Promise((resolve) => setTimeout(resolve, ms));
-
-    await sleep(1000);
-
     const researchPlan = childDocs.find((plan) => plan.name === "research");
     if (researchPlan) {
+      const items = await researchFlow({
+        category,
+        items: userSelection,
+      });
       await firestore.doc(`plans/${researchPlan?.id}`).set({
         name: "research",
         status: "finished",
-        result: "",
+        result: { items },
       });
     }
     console.log({ researchPlan });
 
+    const sleep = (ms: number) =>
+      new Promise((resolve) => setTimeout(resolve, ms));
     await sleep(1000);
 
     const observePlan = childDocs.find((plan) => plan.name === "observe");
