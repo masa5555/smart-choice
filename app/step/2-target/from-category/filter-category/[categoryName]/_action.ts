@@ -52,11 +52,11 @@ export const handleSubmit = async (formData: FormData) => {
 
   // https://nextjs.org/docs/app/api-reference/functions/after
   after(async () => {
-    const researchPlan = childDocs.find((plan) => plan.name === "research");
+    const researchPlan = childDocs.find((plan) => plan.name === "reasoning");
     if (!researchPlan) {
-      throw new Error("Failed to find research plan");
+      throw new Error("Failed to find reasoning plan");
     }
-    const userSelection = Object.entries(formData)
+    const userSelection = Array.from(formData)
       .filter(([key, _]) => !key.includes("ACTION"))
       .map(([key, value]) => {
         return {
@@ -67,6 +67,7 @@ export const handleSubmit = async (formData: FormData) => {
     console.log({ userSelection });
     const result = await generateReasoningFlow(userSelection);
     await firestore.doc(`plans/${researchPlan.id}`).set({
+      name: "reasoning",
       status: "finished",
       result: result,
     });
